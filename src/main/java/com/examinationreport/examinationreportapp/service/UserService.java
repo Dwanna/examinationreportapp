@@ -16,7 +16,7 @@ public interface UserService {
     List<User> findAllUsers();
 
 
-    List<User> getAllLectures();
-    List<User> getAllStudents();
+    Page<User> getAllLectures(Pageable pageable);
+    Page<User> getAllStudents(Pageable pageable);
     Page<User> getAllAdmins(Pageable pageable);
 }

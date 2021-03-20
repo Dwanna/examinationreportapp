@@ -3,6 +3,7 @@ package com.examinationreport.examinationreportapp.service.impl;
 import com.examinationreport.examinationreportapp.entity.AllLecturers;
 import com.examinationreport.examinationreportapp.entity.Role;
 import com.examinationreport.examinationreportapp.entity.User;
+import com.examinationreport.examinationreportapp.exception.ExceptionHandler;
 import com.examinationreport.examinationreportapp.repository.AllAdminsRepository;
 import com.examinationreport.examinationreportapp.repository.AllLecturersRepository;
 import com.examinationreport.examinationreportapp.repository.AllStudentsRepository;
@@ -88,23 +89,36 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User createAdmin(User user) {
 
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(bcryptEncoder.encode(user.getPassword()));;
-        newUser.setEmail(user.getEmail());
-        newUser.setName(user.getName());
-        newUser.setPhonenumber(user.getPhonenumber());
+        if(userRepository.findByUsername(user.getUsername())!=null){
+            throw new ExceptionHandler("Admin with this username already exist");
+
+        }
+
+        else if(userRepository.findByEmail(user.getEmail())!=null){
+            throw new ExceptionHandler("Admin with this email already exist");
+        }
+        else {
+
+            User newUser = new User();
+            newUser.setUsername(user.getUsername());
+            newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
+            ;
+            newUser.setEmail(user.getEmail());
+            newUser.setName(user.getName());
+            newUser.setPhonenumber(user.getPhonenumber());
 
 
-        // add default role of 'USER'
-        Role role = new Role();
-        role.setName("ADMIN");
-        role.setDescription("This is an admin role");
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(role);
-        newUser.setRoles(roleSet);
+            // add default role of 'USER'
+            Role role = new Role();
+            role.setName("ADMIN");
+            role.setDescription("This is an admin role");
+            Set<Role> roleSet = new HashSet<>();
+            roleSet.add(role);
+            newUser.setRoles(roleSet);
 
-        return userRepository.save(newUser);
+//            return userRepository.save(newUser);
+            return user;
+        }
 
     }
 
@@ -114,13 +128,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> getAllLectures() {
-        return (List)allLecturersRepository.findAll();
+    public Page<User> getAllLectures(Pageable pageable) {
+        return (Page)allLecturersRepository.findAll(pageable);
     }
 
     @Override
-    public List<User> getAllStudents() {
-        return (List) allStudentsRepository.findAll();
+    public Page<User> getAllStudents(Pageable pageable) {
+        return  (Page)allStudentsRepository.findAll(pageable);
     }
 
     @Override

@@ -25,14 +25,14 @@ public class ExaminationreportappApplication implements CommandLineRunner {
 
         for(int i=0;i<500;i++) {
             User user1 = new User();
-            user1.setName("DS"+i);
-            user1.setUsername("MrBiggs"+i);
+            user1.setName("LS"+i);
+            user1.setUsername("MrLec"+i);
             user1.setPassword("Daniel");
-            user1.setEmail("SD@gmail.com"+i);
+            user1.setEmail("LS@gmail.com"+i);
             user1.setPhonenumber("089976253");
 
 
-            //userservice.createAdmin(user1);
+           // userservice.createLecturer(user1);
 
 
         }

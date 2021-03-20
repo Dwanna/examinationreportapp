@@ -61,11 +61,11 @@ public class AuthenticationController {
     return ResponseEntity.ok(new AuthToken(token, userUsername,role));
   }
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @RequestMapping(value="/users", method = RequestMethod.GET)
-  public List<User> listUser(){
-      return userService.findAllUsers();
-  }
+//  @PreAuthorize("hasRole('ADMIN')")
+//  @RequestMapping(value="/users", method = RequestMethod.GET)
+//  public List<User> listUser(){
+//      return userService.findAllUsers();
+//  }
 
 //  @PreAuthorize("hasRole('USER')")
 //  //@PreAuthorize("hasAnyRole('USER', 'ADMIN')")

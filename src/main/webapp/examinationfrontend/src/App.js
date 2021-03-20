@@ -11,6 +11,11 @@ import StudentHomePage from "./components/StudentHomePage";
 import LecturerHomePage from "./components/LecturerHomePage";
 import StudentLogin from "./components/StudentLogin";
 import LecturerLogin from "./components/LecturerLogin";
+import AdminLecturerView from "./components/AdminLecturerView";
+import AdminStudentView from "./components/AdminStudentView";
+import AdminAddAdmin from "./components/AdminAddAdmin";
+
+
 import React, {Component} from "react";
 
 import AuthService from "./service/auth.service"
@@ -87,6 +92,9 @@ class App extends Component {
                     <Route  path={"/adminHomePage"} component={AdminHomePage}></Route>
                     <Route  path={"/studentHomePage"} component={StudentHomePage}></Route>
                     <Route  path={"/lecturerHomePage"} component={LecturerHomePage}></Route>
+                    <Route  path={"/adminLecturerView"} component={AdminLecturerView}></Route>
+                    <Route  path={"/adminStudentView"} component={AdminStudentView}></Route>
+                    <Route  path={"/adminAddAdmin"} component={AdminAddAdmin}></Route>
                 </Switch>
 
 

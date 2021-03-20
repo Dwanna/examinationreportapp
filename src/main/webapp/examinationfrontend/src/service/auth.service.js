@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 const url= "http://localhost:8082/";
 
 class AuthService{
@@ -43,6 +44,25 @@ class AuthService{
                 if(response.data.token){
                     localStorage.setItem("user",JSON.stringify(response.data));
                 }
+                return response.data;
+            })
+
+    }
+
+    createAdmin(username,password,name,email,phonenumber){
+
+
+        return axios
+            .post(url +"admin/createAdmin",{
+                username,
+                password,
+                name,
+                email,
+                phonenumber
+            },{headers:authHeader()}).then(response=>{
+                // if(response.data.token){
+                //     localStorage.setItem("user",JSON.stringify(response.data));
+                // }
                 return response.data;
             })
 

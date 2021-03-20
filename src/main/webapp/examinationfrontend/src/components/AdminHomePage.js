@@ -20,6 +20,8 @@ class AdminHomePage extends React.Component {
         this.nextPage= this.nextPage.bind(this);
         this.prevPage= this.prevPage.bind(this);
         this.lastPage= this.lastPage.bind(this);
+        this.addAdmin= this.addAdmin.bind(this);
+
 
     }
 
@@ -32,7 +34,7 @@ class AdminHomePage extends React.Component {
         axios.get("http://localhost:8082/admin/allAdmins?page="+currentPage+"&size="+this.state.usersPerPage,{headers:authHeader()})
             .then(response=>response.data)
             .then((data)=>{
-                
+
 
                 this.setState({
                     users: data.content,
@@ -78,6 +80,11 @@ class AdminHomePage extends React.Component {
         }
     }
 
+    addAdmin = () =>{
+
+        this.props.history.push("/adminAddAdmin");
+    }
+
 
 
 
@@ -101,16 +108,16 @@ class AdminHomePage extends React.Component {
             <div className="row" style={{border:"solid 2px black"}}>
 
                 <div className="col-md-6">
-                    <a href="#" className="link-info" style={{fontSize:"26px"}}>Lecturer View</a>
+                    <a href="/adminLecturerView" className="link-info" style={{fontSize:"26px"}}>Lecturer View</a>
                 </div>
                 <div className="col-md-6">
-                    <a href="#" className="link-info" style={{fontSize:"26px"}}>Student View</a></div>
+                    <a href="/adminStudentView" className="link-info" style={{fontSize:"26px"}}>Student View</a></div>
 
 
             </div>
 
 
-            <div className="adminContent">
+            <div className="border border-dark bg-dark text-white">
                 <h2>This is admin content</h2>
                 <Card className={"border border-dark bg-dark text-white"} style={{marginTop:"50px"}}>
                     <Card.Header>List of Admin Users</Card.Header>
@@ -200,7 +207,12 @@ class AdminHomePage extends React.Component {
             </div>
 
 
-            <div></div>
+            <div style={{"float":"center","margin-top":"30px"}}>
+                <Button type="button" variant="outline-info"  onClick={this.addAdmin}> ADD NEW ADMIN</Button>
+
+
+            </div>
+            <div style={{"margin-top":"50px"}}></div>
 
 
 
