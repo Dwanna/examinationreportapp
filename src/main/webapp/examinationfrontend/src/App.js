@@ -19,6 +19,7 @@ import AdminAddAdmin from "./components/AdminAddAdmin";
 import React, {Component} from "react";
 
 import AuthService from "./service/auth.service"
+import SearchUser from "./components/SearchUser";
 
 
 class App extends Component {
@@ -53,6 +54,9 @@ class App extends Component {
   return (
 
     <div className="App">
+
+
+
         <Router>
         <Container>
             <Navbar bg="dark" variant="dark">
@@ -95,6 +99,7 @@ class App extends Component {
                     <Route  path={"/adminLecturerView"} component={AdminLecturerView}></Route>
                     <Route  path={"/adminStudentView"} component={AdminStudentView}></Route>
                     <Route  path={"/adminAddAdmin"} component={AdminAddAdmin}></Route>
+                    <Route  path={"/searchUser"} component={SearchUser}></Route>
                 </Switch>
 
 

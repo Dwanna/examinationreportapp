@@ -9,6 +9,8 @@ import com.examinationreport.examinationreportapp.repository.AllLecturersReposit
 import com.examinationreport.examinationreportapp.repository.AllStudentsRepository;
 import com.examinationreport.examinationreportapp.repository.UserRepository;
 import com.examinationreport.examinationreportapp.service.UserService;
+import com.examinationreport.examinationreportapp.validation.ValidateUpdateUser;
+import com.examinationreport.examinationreportapp.validation.ValidateUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -141,6 +143,85 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public Page<User> getAllAdmins(Pageable pageable) {
         return  (Page)allAdminsRepository.findAll(pageable);
     }
+
+    @Override
+    public Object searchAdmin(String username) {
+        Object admin= userRepository.searchAdmin(username);
+        if(admin==null){
+            throw new ExceptionHandler("This admin doesn't exist, make sure you");
+        }
+        else{
+            return userRepository.searchAdmin(username);
+        }
+
+    }
+
+    @Override
+    public Object searchLecturer(String username) {
+        Object lecturer= userRepository.searchLecturer(username);
+        if(lecturer==null){
+            throw new ExceptionHandler("This lecturer doesn't exist, make sure you entered the correct username type");
+        }
+        else{
+            return userRepository.searchLecturer(username);
+        }
+
+
+    }
+
+    @Override
+    public Object searchStudent(String username) {
+        Object student= userRepository.searchStudent(username);
+
+
+
+        if(student==null){
+            throw new ExceptionHandler("This student doesn't exist, make sure you entered the correct username type");
+        }
+        else{
+            return userRepository.searchStudent(username);
+        }
+    }
+
+    @Override
+    public Object updateUser(ValidateUpdateUser user) {
+        User user1= userRepository.findByUsername(user.getUsername());
+
+        if(user1==null){
+
+            throw new ExceptionHandler("Username doesnt exist");
+        }
+        else{
+
+            user1.setPhonenumber(user.getPhonenumber());
+            user1.setEmail(user.getEmail());
+            user1.setName(user.getName());
+
+            return userRepository.save(user1);
+
+        }
+    }
+
+    @Override
+    public Boolean deleteUser(String username) {
+
+       // System.out.println(username);
+
+        User user1= userRepository.findByUsername(username);
+
+        if(user1==null){
+
+            throw new ExceptionHandler("Username doesnt exist, make sure there is a user with that username");
+        }
+        else{
+
+            userRepository.delete(user1);
+            return true;
+
+        }
+
+    }
+
 
     private Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();

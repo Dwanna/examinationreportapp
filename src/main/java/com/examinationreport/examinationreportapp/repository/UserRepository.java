@@ -15,8 +15,26 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Integer> {
     User findByUsername(String s);
 
+    User findById(int id);
+
+
+
     User findByEmail(String s);
 
-    @Query(nativeQuery = true,value="SELECT * from alllecturers")
-     List<User> findAllLecturers();
+//    @Query(nativeQuery = true,value="SELECT * from alllecturers")
+//     List<User> findAllLecturers();
+
+    @Query(nativeQuery = true,value="Select user_id as id, user.name,user.email,user.username,user.phonenumber from examsystem.user inner join user_roles on user_roles.user_id=user.id inner join role on role.id=user_roles.role_id where role.name='STUDENT' and user.username= ?;")
+    Object searchStudent(String username);
+
+    @Query(nativeQuery = true,value="Select user_id as id, user.name,user.email,user.username,user.phonenumber from examsystem.user inner join user_roles on user_roles.user_id=user.id inner join role on role.id=user_roles.role_id where role.name='LECTURER' and user.username= ?;")
+    Object searchLecturer(String username);
+
+@Query(nativeQuery = true,value="Select user_id as id, user.name,user.email,user.username,user.phonenumber from examsystem.user inner join user_roles on user_roles.user_id=user.id inner join role on role.id=user_roles.role_id where role.name='ADMIN' and user.username= ?;")
+    Object searchAdmin(String username);
+
+
+
+
+
 }

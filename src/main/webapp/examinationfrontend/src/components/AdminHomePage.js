@@ -1,5 +1,5 @@
 import React from "react";
-import {Tabs, Table, TabContent, Tab, Card, Col, ButtonGroup,Button,InputGroup,FormControl} from 'react-bootstrap'
+import {Tabs, Table, TabContent, Tab, Card, Col, ButtonGroup,Button,InputGroup,FormControl,Accordion,Form} from 'react-bootstrap'
 
 import "../App.css";
 import authHeader from "../service/auth-header";
@@ -7,6 +7,16 @@ import axios from "axios";
 import {faTrash,faEdit,faStepBackward,faStepForward,faFastForward,faFastBackward} from "@fortawesome/free-solid-svg-icons";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import Input from "react-validation/build/input";
+
+
+const required = value=>{
+    if(!value){
+        return (
+            <div className="alert alert-danger" role="alert">This field is required</div>
+        )
+    }
+}
 class AdminHomePage extends React.Component {
 
     constructor(props) {
@@ -14,20 +24,30 @@ class AdminHomePage extends React.Component {
         this.state={
             users: [],
             currentPage:1,
-            usersPerPage:5
+            usersPerPage:5,
+            studentUsername:'',
+            lecturerUsername:'',
+            adminUsername:'',
+            searchAdminMessage:'',
+            searchStudentMessage:'',
+            searchLecturerMessage:''
         };
         this.firstPage= this.firstPage.bind(this);
         this.nextPage= this.nextPage.bind(this);
         this.prevPage= this.prevPage.bind(this);
         this.lastPage= this.lastPage.bind(this);
         this.addAdmin= this.addAdmin.bind(this);
-
+        this.onChange= this.onChange.bind(this);
+        this.searchStudent= this.searchStudent.bind(this);
+        this.searchLecturer=this.searchLecturer.bind(this);
 
     }
 
     componentDidMount() {
     this.getAllAdminUser(this.state.currentPage)
     }
+
+
 
     getAllAdminUser(currentPage){
         currentPage-=1;
@@ -85,6 +105,92 @@ class AdminHomePage extends React.Component {
         this.props.history.push("/adminAddAdmin");
     }
 
+    onChange(event){
+        this.setState(
+            {
+                [event.target.name]:event.target.value
+            }
+        )
+    }
+
+
+    searchStudent(event){
+        event.preventDefault();
+        // alert("call me anytime"+this.state.studentUsername);
+
+
+        // this.props.history.push({
+        //     pathname: '/searchUser',
+        //     state: {details:this.state.studentUsername}
+        // })
+
+        axios.get("http://localhost:8082/admin/searchStudent?username="+this.state.studentUsername,{headers:authHeader()})
+            .then(response=>response.data)
+            .then((data)=>{
+
+            // console.log(data);
+                    this.props.history.push({
+                        pathname: '/searchUser',
+                        state: {
+                            id:data[0],
+                            name:data[1],
+                            email:data[2],
+                            username:data[3],
+                            phoneNumber:data[4]
+                        }
+                    })
+
+
+            },
+                error=>{
+                    const  resMessage= (error.response && error.response.data
+                        && error.response.data.message) || error.message||error.toString();
+                    if(error.message==="Request failed with status code 400") {
+                        console.log(error.response.data);
+                        alert(error.response.data);
+                    }
+
+                })
+
+
+
+    }
+
+    searchLecturer(event){
+        event.preventDefault();
+
+        axios.get("http://localhost:8082/admin/searchLecturer?username="+this.state.lecturerUsername,{headers:authHeader()})
+            .then(response=>response.data)
+            .then((data)=>{
+
+                    this.props.history.push({
+                        pathname: '/searchUser',
+                        state: {
+                            id:data[0],
+                            name:data[1],
+                            email:data[2],
+                            username:data[3],
+                            phoneNumber:data[4]
+                        }
+                    });
+
+
+                },
+                error=>{
+                    const  resMessage= (error.response && error.response.data
+                        && error.response.data.message) || error.message||error.toString();
+                    if(error.message==="Request failed with status code 400") {
+                        console.log(error.response.data);
+                    }
+
+                })
+
+
+    }
+
+
+
+
 
 
 
@@ -130,7 +236,7 @@ class AdminHomePage extends React.Component {
                                 <th>UserName</th>
                                 <th>Email Address:</th>
                                 <th>Phone Number</th>
-                                <th>Action</th>
+
 
                             </tr>
                             </thead>
@@ -147,12 +253,7 @@ class AdminHomePage extends React.Component {
                                             <td>{user.username}</td>
                                             <td>{user.email}</td>
                                             <td>{user.phonenumber}</td>
-                                            <td>
-                                                <ButtonGroup>
-                                                    <Button size="sm" variant="outline-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-                                                    <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faTrash}/></Button>
-                                                </ButtonGroup>
-                                            </td>
+
                                         </tr>
                                     ))
                             }
@@ -212,6 +313,75 @@ class AdminHomePage extends React.Component {
 
 
             </div>
+            <div style={{"margin-top":"50px","border":"solid 2px black"}}></div>
+
+            <div>
+                <h3 style={{"float":"center"}}>Search User</h3>
+
+
+                <Accordion>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                Search Student
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                            <form onSubmit={this.searchStudent}>
+                            <Card.Body>
+
+
+                                <div className="form-group">
+                                    <label>Enter the student's username:</label>
+                                    <input className="form-control" placeholder="Enter student's username" value={this.state.studentUsername}  name="studentUsername" onChange={this.onChange} validations={[required]}/>
+                                    <Button type="submit" variant="outline-info"  >Search</Button>
+
+                                </div>
+                            </Card.Body>
+                            </form>
+
+                        </Accordion.Collapse>
+                    </Card>
+                    <Card>
+                        <Card.Header>
+                            <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                                Search Lecturer
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="1">
+                            <Card.Body>
+                                <div className="form-group">
+                                    <label>Enter the lecturer's username:</label>
+                                    <input className="form-control" placeholder="Enter lecturer's username" value={this.state.lecturerUsername}  name="lecturerUsername" onChange={this.onChange} validations={[required]}/>
+                                    <Button type="button" variant="outline-info" onClick={this.searchLecturer}>Search</Button>
+                                </div>
+
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Card>
+
+
+                </Accordion>
+
+
+            </div>
+
+            <div style={{"margin-top":"50px","border":"solid 2px black"}}></div>
+
+
+            <div style={{"margin-top":"10px"}}>Visualize Users data</div>
+
+
+            <div className="row" style={{"border":"solid 0.5px black"}}>
+                <div className="col-md-6">1</div>
+                <div className="col-md-6">2</div>
+            </div>
+
+            <div className="row" style={{"border":"solid 0.5px black"}}>
+                <div className="col-md-6">1</div>
+                <div className="col-md-6">2</div>
+            </div>
+
             <div style={{"margin-top":"50px"}}></div>
 
 

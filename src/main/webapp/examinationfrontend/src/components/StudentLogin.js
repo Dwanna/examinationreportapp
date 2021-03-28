@@ -85,13 +85,13 @@ class StudentLogin extends React.Component {
 
                         <div className="form-group" >
                             <label>Username</label>
-                            <Input type="text" className="form-control" value={this.state.studentUsername}  placeholder="Enter Username" name="studentUsername" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" value={this.state.studentUsername}  placeholder="Enter Username" name="studentUsername" onChange={this.onChange} required/>
                         </div>
 
 
                         <div className="form-group" >
                             <label>Password</label>
-                            <Input type="text" className="form-control" placeholder="Enter your password" value={this.state.studentPassword} name= "studentPassword" onChange={this.onChange}   required />
+                            <input type="text" className="form-control" placeholder="Enter your password" value={this.state.studentPassword} name= "studentPassword" onChange={this.onChange}   required />
                         </div>
 
 

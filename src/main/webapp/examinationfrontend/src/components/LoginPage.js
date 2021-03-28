@@ -41,7 +41,7 @@ adminLogin(event)
     this.form.validateAll();
 
     if(this.checkBtn.context._errors.length === 0){
-        AuthService.loginAdmin(this.state.adminUsername, this.state.adminPassword).then(
+            AuthService.loginAdmin(this.state.adminUsername, this.state.adminPassword).then(
 
             response => {
                 // console.log(response.data.role);
@@ -109,13 +109,13 @@ onChange(event){
 
                                 <div className="form-group" >
                                 <label>Username</label>
-                                <Input type="text" className="form-control" value={this.state.adminUsername}  placeholder="Enter Username" name="adminUsername" onChange={this.onChange} required/>
+                                <Input type="text" className="form-control" value={this.state.adminUsername}  placeholder="Enter Username" name="adminUsername" onChange={this.onChange} validations={[required]}/>
                                 </div>
 
 
                                 <div className="form-group" >
                                 <label>Password</label>
-                                <Input type="text" className="form-control" placeholder="Enter your password" value={this.state.adminPassword} name= "adminPassword" onChange={this.onChange}   required />
+                                <Input type="text" className="form-control" placeholder="Enter your password" value={this.state.adminPassword} name= "adminPassword" onChange={this.onChange}   validations={[required]} />
                                 </div>
 
 
