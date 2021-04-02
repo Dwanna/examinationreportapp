@@ -24,10 +24,14 @@ constructor(props) {
     this.nextPage = this.nextPage.bind(this);
     this.prevPage = this.prevPage.bind(this);
     this.lastPage = this.lastPage.bind(this);
+    this.back= this.back.bind(this);
 }
 
     componentDidMount() {
         this.getAllLecturerUser(this.state.currentPage)
+    }
+    back (){
+        this.props.history.push("/adminHomePage");
     }
 
     getAllLecturerUser(currentPage){
@@ -135,12 +139,7 @@ constructor(props) {
                                                 <td>{user.username}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.phonenumber}</td>
-                                                <td>
-                                                    <ButtonGroup>
-                                                        <Button size="sm" variant="outline-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-                                                        <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faTrash}/></Button>
-                                                    </ButtonGroup>
-                                                </td>
+
                                             </tr>
                                         ))
                                 }
@@ -190,6 +189,13 @@ constructor(props) {
 
 
                     </Card>
+
+
+                </div>
+
+
+                <div style={{"float":"center","margin-top":"30px"}}>
+                    <Button type="button" variant="outline-info" onClick={this.back}  > GO BACK</Button>
 
 
                 </div>

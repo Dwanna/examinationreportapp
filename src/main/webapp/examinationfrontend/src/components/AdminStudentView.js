@@ -20,21 +20,28 @@ class AdminStudentView extends React.Component {
         this.state = {
             users: [],
             currentPage: 1,
-            usersPerPage: 5
+            usersPerPage: 5,
+            sortToggle: true
         };
         this.firstPage = this.firstPage.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.prevPage = this.prevPage.bind(this);
         this.lastPage = this.lastPage.bind(this);
+        this.back=this.back.bind(this);
+        this.sortData= this.sortData.bind(this);
     }
 
     componentDidMount() {
         this.getAllStudentUser(this.state.currentPage)
     }
+    back (){
+        this.props.history.push("/adminHomePage");
+    }
 
     getAllStudentUser(currentPage){
         currentPage-=1;
-        axios.get("http://localhost:8082/admin/allStudents?page="+currentPage+"&size="+this.state.usersPerPage,{headers:authHeader()})
+        let sortDir= this.state.sortToggle ? "asc" : "desc";
+        axios.get("http://localhost:8082/admin/allStudents?pageNumber="+currentPage+"&pageSize="+this.state.usersPerPage+"&sortBy=username&sortDir="+sortDir,{headers:authHeader()})
             .then(response=>response.data)
             .then((data)=>{
                 console.log(data)
@@ -48,6 +55,14 @@ class AdminStudentView extends React.Component {
                 })
 
             })
+    }
+    sortData=()=>{
+        this.setState(
+            {
+                sortToggle : !this.state.sortToggle
+            }
+        )
+        this.getAllStudentUser(this.state.currentPage)
     }
 
     firstPage =()=> {
@@ -101,6 +116,8 @@ class AdminStudentView extends React.Component {
             textAlign:"center",
             fontWeight:"bold"
         }
+
+
         return (
             <div>
 
@@ -117,10 +134,10 @@ class AdminStudentView extends React.Component {
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>UserName</th>
+                                    <th onClick={this.sortData}>UserName<div className={this.state.sortToggle ? "arrow arrow-down": "arrow arrow-up"}></div></th>
                                     <th>Email Address:</th>
                                     <th>Phone Number</th>
-                                    <th>Action</th>
+
 
                                 </tr>
                                 </thead>
@@ -137,12 +154,7 @@ class AdminStudentView extends React.Component {
                                                 <td>{user.username}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.phonenumber}</td>
-                                                <td>
-                                                    <ButtonGroup>
-                                                        <Button size="sm" variant="outline-primary"><FontAwesomeIcon icon={faEdit}/></Button>
-                                                        <Button size="sm" variant="outline-danger"><FontAwesomeIcon icon={faTrash}/></Button>
-                                                    </ButtonGroup>
-                                                </td>
+
                                             </tr>
                                         ))
                                 }
@@ -192,6 +204,13 @@ class AdminStudentView extends React.Component {
 
 
                     </Card>
+
+
+                </div>
+
+
+                <div style={{"float":"center","margin-top":"30px"}}>
+                    <Button type="button" variant="outline-info" onClick={this.back}  > GO BACK</Button>
 
 
                 </div>

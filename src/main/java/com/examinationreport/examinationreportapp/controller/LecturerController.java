@@ -1,15 +1,26 @@
 package com.examinationreport.examinationreportapp.controller;
 
 import com.examinationreport.examinationreportapp.config.TokenProvider;
+import com.examinationreport.examinationreportapp.entity.Grade;
+import com.examinationreport.examinationreportapp.entity.Module;
+import com.examinationreport.examinationreportapp.entity.User;
 import com.examinationreport.examinationreportapp.service.UserService;
+import com.examinationreport.examinationreportapp.validation.ShowGrade;
+import com.examinationreport.examinationreportapp.validation.ValidateGrade;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 
 @CrossOrigin("http://localhost:3000")
+@RestController
+@RequestMapping("/lecturer")
 public class LecturerController {
 
 
@@ -21,6 +32,59 @@ public class LecturerController {
 
     @Autowired
     private UserService userService;
+
+
+
+
+
+    @PreAuthorize("hasAnyRole('ADMIN','LECTURER')")
+    @RequestMapping(value="/searchLecturer/modules", method = RequestMethod.GET)
+    public User findModule(@RequestParam("username")String username){
+
+        return userService.findUserModules(username);
+
+    }
+
+
+    @PreAuthorize("hasAnyRole('ADMIN','LECTURER')")
+    @RequestMapping(value="/module", method = RequestMethod.GET)
+    public List<Module> findUserModule(@RequestParam("name")String name){
+        //System.out.println(username+" this is my username");
+        return userService.findModule(name);
+
+    }
+
+
+
+    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @RequestMapping(value="/studentModule", method = RequestMethod.GET)
+    public List<Object> findStudentModule(@RequestParam("name")String modulename){
+        //System.out.println(username+" this is my username");
+
+
+        return userService.findAllStudentsModule(modulename);
+    }
+
+
+    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @RequestMapping(value="/postGrades", method = RequestMethod.POST)
+    public Grade uploadGrades(@Valid @RequestBody ValidateGrade validateGrade){
+
+        System.out.println(validateGrade.getUsername()+validateGrade.getName()+validateGrade.getGrade());
+
+
+        return userService.postOrUploadGrades(validateGrade.getUsername(), validateGrade.getName(), validateGrade.getGrade());
+    }
+
+
+    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @RequestMapping(value="/findGrade", method = RequestMethod.GET)
+    public ShowGrade getGrade(@RequestParam("username")String username, @RequestParam("module")String module){
+
+
+        return userService.findStudentGradeForAModule(username,module);
+
+  }
 
 //
 //    @PreAuthorize("hasRole('LECTURER')")

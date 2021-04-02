@@ -20,6 +20,8 @@ import React, {Component} from "react";
 
 import AuthService from "./service/auth.service"
 import SearchUser from "./components/SearchUser";
+import LecturerStudentView from "./components/LecturerStudentView";
+import LecturerStudentGrade from "./components/LecturerStudentGrade";
 
 
 class App extends Component {
@@ -100,6 +102,8 @@ class App extends Component {
                     <Route  path={"/adminStudentView"} component={AdminStudentView}></Route>
                     <Route  path={"/adminAddAdmin"} component={AdminAddAdmin}></Route>
                     <Route  path={"/searchUser"} component={SearchUser}></Route>
+                    <Route  path={"/lecturerStudentView"} component={LecturerStudentView}></Route>
+                    <Route  path={"/lecturerStudentGrade"} component={LecturerStudentGrade}></Route>
                 </Switch>
 
 

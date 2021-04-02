@@ -1,11 +1,11 @@
 package com.examinationreport.examinationreportapp.validation;
 
-import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class ValidateUpdateUser {
-
+public class ValidateGrade {
 
     @NotNull
     @Size(min=5,max=15, message="username should be between 5 to 15")
@@ -17,12 +17,10 @@ public class ValidateUpdateUser {
 
 
     @NotNull
-    @Email(message="Email should be valid")
-    private String email;
+    @Min(value=0, message="must be equal or greater than 0")
+    @Max(value=100, message="must be equal or less than 100")
+    private int grade;
 
-    @NotNull
-    @Size(min=8,max=12, message="Phone number should be 8-12")
-    private String phoneNumber;
 
     public String getUsername() {
         return username;
@@ -40,19 +38,11 @@ public class ValidateUpdateUser {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public int getGrade() {
+        return grade;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 }

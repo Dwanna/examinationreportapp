@@ -68,6 +68,52 @@ class AuthService{
 
     }
 
+updateUser(username,name,email,phoneNumber){
+    return axios
+        .post(url +"admin/updateUser",{
+            username,
+            name,
+            email,
+            phoneNumber
+        },{headers:authHeader()}).then(response=>{
+            // if(response.data.token){
+            //     localStorage.setItem("user",JSON.stringify(response.data));
+            // }
+            return response.data;
+        },
+            error=>{
+                const  resMessage= (error.response && error.response.data
+                    && error.response.data.message) || error.message||error.toString();
+                if(error.message==="Request failed with status code 400") {
+                    alert(error.response.data);
+                }
+            }
+            )
+}
+postGrades(username,name,grade){
+    return axios
+        .post(url +"lecturer/postGrades",{
+            username,
+            name,
+            grade
+
+        },{headers:authHeader()}).then(response=>{
+                // if(response.data.token){
+                //     localStorage.setItem("user",JSON.stringify(response.data));
+                // }
+                return response.data;
+            },
+            error=>{
+                const  resMessage= (error.response && error.response.data
+                    && error.response.data.message) || error.message||error.toString();
+                if(error.message==="Request failed with status code 400") {
+                    console.log(error.response.data);
+                }
+            }
+        )
+
+}
+
 
     logOut(){
         localStorage.removeItem("user");

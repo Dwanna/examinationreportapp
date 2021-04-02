@@ -48,7 +48,16 @@ class LecturerLogin extends React.Component {
                         });
                         localStorage.removeItem("user");
                     }
-                    else{  this.props.history.push('/lecturerHomePage');
+                    else{
+
+                        // this.props.history.push('/lecturerHomePage');
+
+                        this.props.history.push({
+                            pathname: '/lecturerHomePage',
+                            state: {
+                                username:this.state.lecturerUsername
+                            }
+                        })
                         window.location.reload();}
                 }, 
                 error => {

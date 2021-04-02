@@ -2,8 +2,10 @@ package com.examinationreport.examinationreportapp.controller;
 
 import com.examinationreport.examinationreportapp.config.TokenProvider;
 import com.examinationreport.examinationreportapp.entity.AuthToken;
+import com.examinationreport.examinationreportapp.entity.Grade;
 import com.examinationreport.examinationreportapp.entity.LoginUser;
 import com.examinationreport.examinationreportapp.service.UserService;
+import com.examinationreport.examinationreportapp.validation.ValidateGrade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -46,5 +51,16 @@ public class StudentController {
 //        System.out.println(loginUser.getUsername()+loginUser.getPassword());
 //        return ResponseEntity.ok(new AuthToken(token));
 //    }
+
+    @PreAuthorize("hasAnyRole('STUDENT', 'ADMIN')")
+    @RequestMapping(value="/myGrades", method = RequestMethod.GET)
+    public List<Object> getGrades(@RequestParam("username")String username){
+
+
+        return userService.studentGrades(username);
+
+
+
+  }
 
 }

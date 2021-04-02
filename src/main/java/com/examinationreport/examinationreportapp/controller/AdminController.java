@@ -59,8 +59,8 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/allStudents", method = RequestMethod.GET)
-    public Page<User> listUser(Pageable pageable){
-        return userService.getAllStudents(pageable);
+    public Page<User> listUser(int pageNumber,int pageSize,String sortBy,String sortDir){
+        return userService.getAllStudents( pageNumber, pageSize,sortBy,sortDir);
     }
 
 
@@ -144,16 +144,17 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/updateUser")
+    @PutMapping("/updateUser")
     public ResponseEntity<?>  updateUser(@Valid @RequestBody ValidateUpdateUser validateUpdateUser, BindingResult bindingresult) throws ExceptionHandler {
 
-
+        System.out.println(validateUpdateUser.getPhoneNumber()+"username"+validateUpdateUser.getUsername()+"name"+validateUpdateUser.getName()+"email"+validateUpdateUser.getEmail());
 
         if (bindingresult.hasErrors()) {
             //System.out.println("Invalid fields number"+bindingresult.getErrorCount() +"The first error"+bindingresult.getFieldError().getField());
             return ResponseEntity.badRequest().body("Error Count:" + bindingresult.getErrorCount() + ", an error has occurred on field " + bindingresult.getFieldError().getField());
         } else {
             try {
+
                 userService.updateUser(validateUpdateUser);
                 return ResponseEntity
                         .ok("success");
@@ -165,17 +166,17 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/deleteUser")
-    public ResponseEntity<?>  deleteUser(@RequestBody ValidateUsername username, BindingResult bindingresult) throws ExceptionHandler {
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<?>  deleteUser(@RequestParam String username) throws ExceptionHandler {
 
+        System.out.println(username);
 
-
-        if (bindingresult.hasErrors()) {
+        if (username.trim()==""||username.length()<5||username.length()>15) {
             //System.out.println("Invalid fields number"+bindingresult.getErrorCount() +"The first error"+bindingresult.getFieldError().getField());
-            return ResponseEntity.badRequest().body("Error Count:" + bindingresult.getErrorCount() + ", an error has occurred on field " + bindingresult.getFieldError().getField());
+            return ResponseEntity.badRequest().body("Username is of the wrong length");
         } else {
             try {
-                userService.deleteUser(username.getUsername());
+                userService.deleteUser(username);
                 return ResponseEntity
                         .ok("successfully deleted");
             } catch (ExceptionHandler e) {
@@ -183,6 +184,15 @@ public class AdminController {
                 return ResponseEntity.badRequest().body(e.getMessage());
             }
         }
+    }
+
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping(value="/searchLecturer/modules", method = RequestMethod.GET)
+    public User findModule( @RequestParam("username")String username){
+        //System.out.println(username+" this is my username");
+      return userService.findUserModules(username);
+
     }
 
 

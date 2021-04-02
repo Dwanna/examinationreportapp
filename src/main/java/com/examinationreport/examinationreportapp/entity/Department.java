@@ -1,5 +1,7 @@
 package com.examinationreport.examinationreportapp.entity;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name="department")
+@ApiModel(value = "Department Class",description = "The department linked courses")
 public class Department {
 
     @Id
@@ -19,7 +22,7 @@ public class Department {
     @Column(nullable = false)
     private String departmentName;
 
-    @OneToMany(mappedBy="department", cascade= CascadeType.ALL)
+    @OneToMany(mappedBy="department", cascade=CascadeType.ALL)
     private List<Course> courseList;
 
 

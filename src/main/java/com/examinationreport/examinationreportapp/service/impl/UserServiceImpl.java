@@ -1,19 +1,17 @@
 package com.examinationreport.examinationreportapp.service.impl;
 
-import com.examinationreport.examinationreportapp.entity.AllLecturers;
-import com.examinationreport.examinationreportapp.entity.Role;
-import com.examinationreport.examinationreportapp.entity.User;
+import com.examinationreport.examinationreportapp.entity.*;
 import com.examinationreport.examinationreportapp.exception.ExceptionHandler;
-import com.examinationreport.examinationreportapp.repository.AllAdminsRepository;
-import com.examinationreport.examinationreportapp.repository.AllLecturersRepository;
-import com.examinationreport.examinationreportapp.repository.AllStudentsRepository;
-import com.examinationreport.examinationreportapp.repository.UserRepository;
+import com.examinationreport.examinationreportapp.repository.*;
 import com.examinationreport.examinationreportapp.service.UserService;
+import com.examinationreport.examinationreportapp.validation.ShowGrade;
 import com.examinationreport.examinationreportapp.validation.ValidateUpdateUser;
 import com.examinationreport.examinationreportapp.validation.ValidateUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +42,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bcryptEncoder;
 
+    @Autowired
+    private ModuleRepository moduleRepository;
+
+    @Autowired
+    private GradeRepository gradeRepository;
+
     @Override
     public User createStudent(User user) {
 
@@ -61,6 +66,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
         newUser.setRoles(roleSet);
+
+
+
+        Module mod= new Module();
+        mod.setModuleName("RIA");
+
+        Module mod1= new Module();
+        mod1.setModuleName("Software Design");
+
+        Set<Module> ms= new HashSet<>();
+        ms.add(mod);ms.add(mod1);
+
+        newUser.setModules(ms);
 
         return userRepository.save(newUser);
 
@@ -84,6 +102,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(role);
         newUser.setRoles(roleSet);
+
+        Module mod= new Module();
+        mod.setModuleName("RIA");
+
+
+
+        Set<Module> ms= new HashSet<>();
+        ms.add(mod);
+
+        newUser.setModules(ms);
 
         return userRepository.save(newUser);
     }
@@ -118,8 +146,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             roleSet.add(role);
             newUser.setRoles(roleSet);
 
-//            return userRepository.save(newUser);
-            return user;
+
+
+
+
+            return userRepository.save(newUser);
+
         }
 
     }
@@ -135,8 +167,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Page<User> getAllStudents(Pageable pageable) {
-        return  (Page)allStudentsRepository.findAll(pageable);
+    public Page<User> getAllStudents(int pageNumber,int pageSize,String sortBy,String sortDir) {
+        return  (Page)allStudentsRepository.findAll(
+                PageRequest.of(pageNumber,pageSize,sortDir.equalsIgnoreCase("asc")? Sort.by(sortBy).ascending() :Sort.by(sortBy).descending())
+                );
     }
 
     @Override
@@ -193,13 +227,103 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         else{
 
-            user1.setPhonenumber(user.getPhonenumber());
+            user1.setPhonenumber(user.getPhoneNumber());
             user1.setEmail(user.getEmail());
             user1.setName(user.getName());
 
             return userRepository.save(user1);
 
         }
+    }
+
+    @Override
+    public List<Module> findModule(String name) {
+        List<Module> module=  moduleRepository.findByModuleName(name);
+        if(module==null){
+            throw new ExceptionHandler("Module with this id doesnt exist");
+        }
+        else{
+            return module;
+        }
+
+    }
+
+    @Override
+    public User findUserModules(String username) {
+        User u= userRepository.findByUsername(username);
+        if(u==null){
+
+        }
+        else{
+            return u;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Object> findAllStudentsModule(String username) {
+
+        return moduleRepository.findStudentToModule(username);
+    }
+
+    @Override
+    public Grade postOrUploadGrades(String username, String moduleName,int gradePercentage) {
+        User user= userRepository.findByUsername(username);
+
+        Grade grade= gradeRepository.findByUserAndModuleName(user,moduleName);
+
+
+        if(grade==null){
+            Grade grade1= new Grade();
+
+            grade1.setGradePercentage(gradePercentage);
+            grade1.setUser(user);
+            grade1.setModuleName(moduleName);
+
+            return gradeRepository.save(grade1);
+        }
+        else{
+            grade.setGradePercentage(gradePercentage);
+
+            return gradeRepository.save(grade);
+
+        }
+
+
+
+
+
+
+    }
+
+    @Override
+    public List<Object> studentGrades(String username) {
+        User user= userRepository.findByUsername(username);
+
+
+
+        List<Object> newGradeList= userRepository.studentGrades(user.getUsername());
+//        for(int i=0;i<user.getGradeList().size();i++){
+//            newGradeList.add(user.getGradeList().get(i));
+//        }
+
+
+
+        return newGradeList;
+    }
+
+    @Override
+    public ShowGrade findStudentGradeForAModule(String username, String module) {
+        User user= userRepository.findByUsername(username);
+        Grade grade= gradeRepository.findByUserAndModuleName(user,module);
+
+        ShowGrade sg= new ShowGrade();
+
+        sg.setUsername(user.getUsername());
+        sg.setGradePercentage(grade.getGradePercentage());
+
+        return sg;
+
     }
 
     @Override

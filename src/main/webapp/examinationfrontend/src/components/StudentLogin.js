@@ -48,7 +48,12 @@ class StudentLogin extends React.Component {
                         });
                         localStorage.removeItem("user");
                     }
-                    else{  this.props.history.push('/studentHomePage');
+                    else{    this.props.history.push({
+                        pathname: '/studentHomePage',
+                        state: {
+                            username:this.state.studentUsername
+                        }
+                    })
                         window.location.reload();}
                 },
                 error => {

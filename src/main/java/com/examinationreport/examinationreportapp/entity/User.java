@@ -1,5 +1,7 @@
 package com.examinationreport.examinationreportapp.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,32 +11,69 @@ import javax.validation.constraints.NotNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "user")
+@ApiModel(value = "User Class",description = "User Class")
 public class User  {
 
+
+    @ApiModelProperty(
+            value = "Id of the user",
+            name = "id",
+            dataType = "Integer",
+            example = "test_model")
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private int id;
 
+
+    @ApiModelProperty(
+            value = "Username of the user",
+            name = "username",
+            dataType = "String",
+            example = "test_model")
     @NotNull
     @Column(nullable = false)
     private String username;
 
+
+    @ApiModelProperty(
+            value = "Password of the user",
+            name = "password",
+            dataType = "String",
+            example = "test_model")
     @NotNull
     @Column(nullable = false)
     private String password;
 
+    @ApiModelProperty(
+            value = "Name of the user",
+            name = "name",
+            dataType = "String",
+            example = "test_model")
     @NotNull
     @Column(nullable = false)
     private String name;
 
+
+    @ApiModelProperty(
+            value = "Email of the user",
+            name = "email",
+            dataType = "String",
+            example = "test_model")
     private String email;
 
+
+    @ApiModelProperty(
+            value = "PhoneNumber of the user",
+            name = "phonenumber",
+            dataType = "String",
+            example = "test_model")
     private String phonenumber;
 
 //    @Tra
@@ -55,6 +94,10 @@ public class User  {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "module_id")})
     Set<Module> modules;
+
+
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+    private List<Grade> gradeList;
 
 
     public int getId() {
@@ -121,7 +164,15 @@ public class User  {
         this.modules = modules;
     }
 
-//    @Override
+    public List<Grade> getGradeList() {
+        return gradeList;
+    }
+
+    public void setGradeList(List<Grade> gradeList) {
+        this.gradeList = gradeList;
+    }
+
+    //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
 //        Set<GrantedAuthority> authorities = new HashSet<>();
 //        getRoles().forEach(role -> {

@@ -1,9 +1,12 @@
 package com.examinationreport.examinationreportapp.entity;
 
+import io.swagger.annotations.ApiModel;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="role")
+@ApiModel(value = "Role Class",description = "Role for every user")
 public class Role {
 
     @Id
@@ -15,6 +18,7 @@ public class Role {
 
     @Column
     private String description;
+
 
     public Role() {
     }
