@@ -22,7 +22,7 @@ constructor(props) {
     super(props);
     // this.admin={ username:' ',password:' '}
     this.onChange= this.onChange.bind(this);
-    this.state={adminUsername:' ',adminPassword:' ',loading: false,
+    this.state={adminUsername:'',adminPassword:'',loading: false,
     message:''}
 
     this.adminLogin= this.adminLogin.bind(this);
