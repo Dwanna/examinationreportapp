@@ -11,4 +11,6 @@ public interface GradeRepository extends JpaRepository<Grade,Integer> {
     Grade findByUserAndModuleName(User user,String name);
 
     List<Grade> findByUser(User user);
+
+    List<Grade> findByModuleName(String name);
 }

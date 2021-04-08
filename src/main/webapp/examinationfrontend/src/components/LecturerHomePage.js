@@ -21,13 +21,15 @@ class LecturerHomePage extends React.Component {
 
         const storage= JSON.parse(localStorage.getItem('user'));
         const name=storage.username;
+
+
         return axios
             .get("http://localhost:8082/lecturer/searchLecturer/modules?username="+name,{headers:authHeader()}).then(response=>{
 
-                   console.log(response.data.modules);
+                   console.log(response.data);
 
                    this.setState({
-                       modules:response.data.modules
+                       modules:response.data
                    })
 
 
@@ -101,8 +103,8 @@ class LecturerHomePage extends React.Component {
                                 <td colSpan="5"> You have no modules registered to you</td>
                             </tr> :
                             modules.map((module) => (
-                                <tr key={module.Name}>
-                                    <td><button  className="nav-link" onClick={() => this.getStudent(module.moduleName)}>{module.moduleName}</button></td>
+                                <tr >
+                                    <td><button  className="nav-link" onClick={() => this.getStudent(module)}>{module}</button></td>
 
                                 </tr>
                             ))

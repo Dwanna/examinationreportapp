@@ -14,6 +14,7 @@ import LecturerLogin from "./components/LecturerLogin";
 import AdminLecturerView from "./components/AdminLecturerView";
 import AdminStudentView from "./components/AdminStudentView";
 import AdminAddAdmin from "./components/AdminAddAdmin";
+import LecturerType from "./components/LecturerType";
 
 
 import React, {Component} from "react";
@@ -22,6 +23,9 @@ import AuthService from "./service/auth.service"
 import SearchUser from "./components/SearchUser";
 import LecturerStudentView from "./components/LecturerStudentView";
 import LecturerStudentGrade from "./components/LecturerStudentGrade";
+import NumberUsers from "./components/NumberUsers";
+import DepartmentType from "./components/DepartmentType";
+import SearchModule from "./components/SearchModule";
 
 
 class App extends Component {
@@ -86,7 +90,7 @@ class App extends Component {
             </Navbar>
 
 
-          <h2>Summer Exams</h2>
+          <h2>Summer Exams report system</h2>
 
 
                 <Switch>
@@ -104,6 +108,10 @@ class App extends Component {
                     <Route  path={"/searchUser"} component={SearchUser}></Route>
                     <Route  path={"/lecturerStudentView"} component={LecturerStudentView}></Route>
                     <Route  path={"/lecturerStudentGrade"} component={LecturerStudentGrade}></Route>
+                    <Route  path={"/numberUsers"} component={NumberUsers}></Route>
+                    <Route  path={"/departmentType"} component={DepartmentType}></Route>
+                    <Route  path={"/searchModule"} component={SearchModule}></Route>
+                    <Route  path={"/lecturerType"} component={LecturerType}></Route>
                 </Switch>
 
 

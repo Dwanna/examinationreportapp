@@ -3,6 +3,7 @@ package com.examinationreport.examinationreportapp.controller;
 import com.examinationreport.examinationreportapp.config.TokenProvider;
 import com.examinationreport.examinationreportapp.entity.Grade;
 import com.examinationreport.examinationreportapp.entity.Module;
+import com.examinationreport.examinationreportapp.entity.ModuleGrades;
 import com.examinationreport.examinationreportapp.entity.User;
 import com.examinationreport.examinationreportapp.service.UserService;
 import com.examinationreport.examinationreportapp.validation.ShowGrade;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin("http://localhost:3000")
@@ -39,7 +41,7 @@ public class LecturerController {
 
     @PreAuthorize("hasAnyRole('ADMIN','LECTURER')")
     @RequestMapping(value="/searchLecturer/modules", method = RequestMethod.GET)
-    public User findModule(@RequestParam("username")String username){
+    public List<String> findModule(@RequestParam("username")String username){
 
         return userService.findUserModules(username);
 
@@ -66,7 +68,7 @@ public class LecturerController {
     }
 
 
-    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('LECTURER')")
     @RequestMapping(value="/postGrades", method = RequestMethod.POST)
     public Grade uploadGrades(@Valid @RequestBody ValidateGrade validateGrade){
 
@@ -85,6 +87,16 @@ public class LecturerController {
         return userService.findStudentGradeForAModule(username,module);
 
   }
+
+
+    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @RequestMapping(value="/getGradesForModule", method = RequestMethod.GET)
+    public List<ModuleGrades> getGradesForModule(){
+
+
+        return userService.listStudentGradesForModule("");
+
+    }
 
 //
 //    @PreAuthorize("hasRole('LECTURER')")

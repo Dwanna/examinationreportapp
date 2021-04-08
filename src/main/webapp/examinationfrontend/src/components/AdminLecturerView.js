@@ -122,7 +122,7 @@ constructor(props) {
                                     <th>UserName</th>
                                     <th>Email Address:</th>
                                     <th>Phone Number</th>
-                                    <th>Action</th>
+
 
                                 </tr>
                                 </thead>

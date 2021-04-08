@@ -70,13 +70,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
         Module mod= new Module();
-        mod.setModuleName("RIA");
+        mod.setModuleName("Corporate Finance");
 
         Module mod1= new Module();
-        mod1.setModuleName("Software Design");
+        mod1.setModuleName("Financial Econometrics");
+
+        Module mod2= new Module();
+        mod2.setModuleName("International Finance & Monetary Economics");
+
+        Module mod3= new Module();
+        mod3.setModuleName("Research Project");
+
+        Module mod4= new Module();
+        mod4.setModuleName("Public Economics");
+
+        Module mod5= new Module();
+        mod5.setModuleName("Game Theory");
 
         Set<Module> ms= new HashSet<>();
-        ms.add(mod);ms.add(mod1);
+        ms.add(mod);ms.add(mod1);ms.add(mod2);ms.add(mod3);ms.add(mod4);ms.add(mod5);
 
         newUser.setModules(ms);
 
@@ -104,12 +116,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         newUser.setRoles(roleSet);
 
         Module mod= new Module();
-        mod.setModuleName("RIA");
+        mod.setModuleName("Research Project");
 
+        Module mod1= new Module();
+        mod1.setModuleName("Financial Econometrics");
+
+//        Module mod2= new Module();
+//        mod2.setModuleName("Corporate Finance");
+//
+//        Module mod3= new Module();
+//        mod3.setModuleName("Game Theory");
 
 
         Set<Module> ms= new HashSet<>();
         ms.add(mod);
+        ms.add(mod1);
+//        ms.add(mod2);
+//        ms.add(mod3);
 
         newUser.setModules(ms);
 
@@ -249,15 +272,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User findUserModules(String username) {
+    public List<String> findUserModules(String username) {
         User u= userRepository.findByUsername(username);
-        if(u==null){
 
+        if(u==null){
+        return null;
         }
         else{
-            return u;
+            List<String> list= new ArrayList<>();
+            for(Module m:u.getModules()){
+                list.add(m.getModuleName());
+            }
+            return list;
         }
-        return null;
+
     }
 
     @Override
@@ -324,6 +352,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         return sg;
 
+    }
+
+    @Override
+    public List<ModuleGrades> listStudentGradesForModule(String module) {
+
+        List<Grade> gradeList=gradeRepository.findByModuleName("DATABASE");
+
+        List<ModuleGrades> list= new ArrayList<>();
+
+        for(int i=0;i<gradeList.size();i++){
+            ModuleGrades mg= new ModuleGrades();
+            mg.setStudentName(gradeList.get(i).getUser().getName());
+            mg.setGrade(gradeList.get(i).getGradePercentage());
+
+            list.add(mg);
+        }
+        return list;
     }
 
     @Override

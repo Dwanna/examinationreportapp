@@ -2,6 +2,7 @@ package com.examinationreport.examinationreportapp.service;
 
 import com.examinationreport.examinationreportapp.entity.Grade;
 import com.examinationreport.examinationreportapp.entity.Module;
+import com.examinationreport.examinationreportapp.entity.ModuleGrades;
 import com.examinationreport.examinationreportapp.entity.User;
 import com.examinationreport.examinationreportapp.validation.ShowGrade;
 import com.examinationreport.examinationreportapp.validation.ValidateUpdateUser;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserService {
 
@@ -37,7 +39,7 @@ public interface UserService {
     Boolean deleteUser(String username);
     List<Module> findModule(String name);
 
-    User findUserModules(String username);
+    List<String>findUserModules(String username);
 
     List<Object> findAllStudentsModule(String username);
 
@@ -46,5 +48,7 @@ public interface UserService {
     List<Object> studentGrades(String username);
 
     ShowGrade findStudentGradeForAModule(String username, String module);
+
+    List<ModuleGrades> listStudentGradesForModule(String module);
 
 }

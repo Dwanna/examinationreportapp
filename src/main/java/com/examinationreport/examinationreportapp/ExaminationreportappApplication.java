@@ -34,30 +34,13 @@ public class ExaminationreportappApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-//        for(int i=1;i<2;i++) {
-//            User user1 = new User();
-//            user1.setName("Daly"+i);
-//            user1.setUsername("Marky"+i);
-//            user1.setPassword("Daniel");
-//            user1.setEmail("mark@gmail.com"+i);
-//            user1.setPhonenumber("089976253");
-//
-//
-//            userservice.createLecturer(user1);
-//
-//
-//        }
-for(int i=0;i<5;i++) {
-    User user1 = new User();
-    user1.setName("Danny");
-    user1.setUsername("Daniel"+i);
-    user1.setPassword("Daniel");
-    user1.setEmail("danny@gmail.com");
-    user1.setPhonenumber("089976253");
 
-
-    //userservice.createStudent(user1);
-}
+            User user1 = new User();
+            user1.setName("Dank donald");
+            user1.setUsername("Danky");
+            user1.setPassword("Daniel");
+            user1.setEmail("danky@gmail.com");
+            user1.setPhonenumber("089976251");
 
 
     }

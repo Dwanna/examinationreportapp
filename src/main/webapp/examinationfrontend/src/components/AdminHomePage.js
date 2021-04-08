@@ -4,10 +4,10 @@ import {Tabs, Table, TabContent, Tab, Card, Col, ButtonGroup,Button,InputGroup,F
 import "../App.css";
 import authHeader from "../service/auth-header";
 import axios from "axios";
-import {faTrash,faEdit,faStepBackward,faStepForward,faFastForward,faFastBackward} from "@fortawesome/free-solid-svg-icons";
+import {faStepBackward,faStepForward,faFastForward,faFastBackward} from "@fortawesome/free-solid-svg-icons";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Input from "react-validation/build/input";
+
 
 
 const required = value=>{
@@ -116,13 +116,7 @@ class AdminHomePage extends React.Component {
 
     searchStudent(event){
         event.preventDefault();
-        // alert("call me anytime"+this.state.studentUsername);
 
-
-        // this.props.history.push({
-        //     pathname: '/searchUser',
-        //     state: {details:this.state.studentUsername}
-        // })
 
         axios.get("http://localhost:8082/admin/searchStudent?username="+this.state.studentUsername,{headers:authHeader()})
             .then(response=>response.data)
@@ -373,13 +367,13 @@ class AdminHomePage extends React.Component {
 
 
             <div className="row" style={{"border":"solid 0.5px black"}}>
-                <div className="col-md-6">1</div>
-                <div className="col-md-6">2</div>
+                <div className="col-md-6"><a href="/numberUsers"> View Number of users</a></div>
+                <div className="col-md-6"><a href="/departmentType"> Department Type</a></div>
             </div>
 
             <div className="row" style={{"border":"solid 0.5px black"}}>
-                <div className="col-md-6">1</div>
-                <div className="col-md-6">2</div>
+                <div className="col-md-6"><a href="/lecturerType"> Lecturers in courses</a></div>
+                <div className="col-md-6"><a href="/searchModule"> Search Module</a></div>
             </div>
 
             <div style={{"margin-top":"50px"}}></div>

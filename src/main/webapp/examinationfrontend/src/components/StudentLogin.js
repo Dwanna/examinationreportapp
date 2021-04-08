@@ -12,7 +12,7 @@ class StudentLogin extends React.Component {
         super(props);
         // this.Student={ username:' ',password:' '}
         this.onChange= this.onChange.bind(this);
-        this.state={studentUsername:' ',studentPassword:' ',loading: false,
+        this.state={studentUsername:'',studentPassword:'',loading: false,
             message:''}
         this.StudentLogin= this.StudentLogin.bind(this);
 

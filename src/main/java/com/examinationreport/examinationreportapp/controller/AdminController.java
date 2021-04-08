@@ -3,6 +3,7 @@ package com.examinationreport.examinationreportapp.controller;
 import com.examinationreport.examinationreportapp.config.TokenProvider;
 import com.examinationreport.examinationreportapp.entity.AuthToken;
 import com.examinationreport.examinationreportapp.entity.LoginUser;
+import com.examinationreport.examinationreportapp.entity.Module;
 import com.examinationreport.examinationreportapp.entity.User;
 import com.examinationreport.examinationreportapp.service.UserService;
 
@@ -26,6 +27,7 @@ import javax.validation.constraints.Min;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 
 @CrossOrigin("http://localhost:3000")
@@ -59,7 +61,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/allStudents", method = RequestMethod.GET)
-    public Page<User> listUser(int pageNumber,int pageSize,String sortBy,String sortDir){
+    public Page<User> listStudents(int pageNumber,int pageSize,String sortBy,String sortDir){
         return userService.getAllStudents( pageNumber, pageSize,sortBy,sortDir);
     }
 
@@ -189,7 +191,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/searchLecturer/modules", method = RequestMethod.GET)
-    public User findModule( @RequestParam("username")String username){
+    public List<String> findModule(@RequestParam("username")String username){
         //System.out.println(username+" this is my username");
       return userService.findUserModules(username);
 

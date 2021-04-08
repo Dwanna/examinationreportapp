@@ -25,7 +25,7 @@ class AdminAddAdmin extends React.Component {
         super(props);
 
 
-        this.state={adminUsername:' ',adminPassword:' ', adminName:' ',adminEmail:' ',adminPhonenumber:' ',loading: false,
+        this.state={adminUsername:'',adminPassword:'', adminName:'',adminEmail:'',adminPhonenumber:'',loading: false,
             message:' '}
 
         this.back= this.back.bind(this);
