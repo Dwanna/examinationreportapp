@@ -13,10 +13,10 @@ public class Role {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
 

@@ -18,7 +18,8 @@ constructor(props) {
     this.state = {
         users: [],
         currentPage: 1,
-        usersPerPage: 5
+        usersPerPage: 5,
+        sortToggle: true
     };
     this.firstPage = this.firstPage.bind(this);
     this.nextPage = this.nextPage.bind(this);
@@ -36,7 +37,8 @@ constructor(props) {
 
     getAllLecturerUser(currentPage){
         currentPage-=1;
-        axios.get("http://localhost:8082/admin/allLecturers?page="+currentPage+"&size="+this.state.usersPerPage,{headers:authHeader()})
+        let sortDir= this.state.sortToggle ? "asc" : "desc";
+        axios.get("http://localhost:8082/admin/allLecturers?pageNumber="+currentPage+"&pageSize="+this.state.usersPerPage+"&sortBy=username&sortDir="+sortDir,{headers:authHeader()})
             .then(response=>response.data)
             .then((data)=>{
                 console.log(data)
@@ -50,6 +52,15 @@ constructor(props) {
                 })
 
             })
+    }
+
+    sortData=()=>{
+        this.setState(
+            {
+                sortToggle : !this.state.sortToggle
+            }
+        )
+        this.getAllLecturerUser(this.state.currentPage)
     }
 
     firstPage =()=> {
@@ -119,7 +130,7 @@ constructor(props) {
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>UserName</th>
+                                    <th onClick={this.sortData}>UserName<div className={this.state.sortToggle ? "arrow arrow-down": "arrow arrow-up"}></div></th>
                                     <th>Email Address:</th>
                                     <th>Phone Number</th>
 

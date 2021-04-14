@@ -9,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -76,8 +74,6 @@ public class User  {
             example = "test_model")
     private String phonenumber;
 
-//    @Tra
-//    private boolean enabled=true;
 
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -26,12 +26,6 @@ public class StudentController {
 
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenProvider jwtTokenUtil;
-
-    @Autowired
     private UserService userService;
 
 

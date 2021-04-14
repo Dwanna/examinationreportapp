@@ -42,6 +42,23 @@ public class ExaminationreportappApplication implements CommandLineRunner {
             user1.setEmail("danky@gmail.com");
             user1.setPhonenumber("089976251");
 
+//            Uncomment this and run the application to add an admin
+           // userService.createAdmin(user1);
+
+
+
+
+        for(int i=1;i<21;i++) {
+            User user2 = new User();
+            user2.setName("MyStudent");
+            user2.setUsername("Student" + i);
+            user2.setPassword("Daniel");
+            user2.setEmail("student"+i+"@gmail.com");
+            user2.setPhonenumber("089976251");
+            //            Uncomment this and run the application to add list of students, make sure to comment this after running the application so it doesnt add the objects again
+            //userservice.createStudent(user2);
+        }
+
 
     }
 
@@ -58,7 +75,11 @@ public class ExaminationreportappApplication implements CommandLineRunner {
         return new ApiInfoBuilder()
                 .title("Examination Report App")
                 .version("1.0")
-                .description("This application allows different users to perform particular function.The users are grouped into Admin, Lecturer and Student")
+                .description("This exam result application allows different users to perform particular function.The users are grouped into Admin, Lecturer and Student.\n" +
+                        "Admin:Oversees all users actions\n" +
+                        "Lecturer: Post and view students grades.\n" +
+                        "Student:Can only view grades")
+
                 .license("Apache License Version 2.0")
                 .build();
     }

@@ -23,7 +23,7 @@ public interface UserService {
     List<User> findAllUsers();
 
 
-    Page<User> getAllLectures(Pageable pageable);
+    Page<User> getAllLectures(int pageNumber,int pageSize,String sortBy,String sortDir);
     Page<User> getAllStudents(int pageNumber,int pageSize,String sortBy,String sortDir);
     Page<User> getAllAdmins(Pageable pageable);
 

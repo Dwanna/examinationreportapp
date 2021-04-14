@@ -185,8 +185,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Page<User> getAllLectures(Pageable pageable) {
-        return (Page)allLecturersRepository.findAll(pageable);
+    public Page<User> getAllLectures(int pageNumber,int pageSize,String sortBy,String sortDir) {
+        return  (Page)allLecturersRepository.findAll(
+                PageRequest.of(pageNumber,pageSize,sortDir.equalsIgnoreCase("asc")? Sort.by(sortBy).ascending() :Sort.by(sortBy).descending())
+        );
     }
 
     @Override
@@ -399,7 +401,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         });
         return authorities;
-        //return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
     }
 
     @Override

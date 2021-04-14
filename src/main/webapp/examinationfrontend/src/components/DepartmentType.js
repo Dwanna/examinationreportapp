@@ -23,7 +23,7 @@ class DepartmentType extends React.Component{
             <div>
                 <Chart
                     id="chart"
-                    title="Most number of students in department"
+                    title="Number of students based on department"
                     customizePoint={this.customizePoint}
                     onPointClick={this.onPointClick}
                     className={this.state.isFirstLevel ? 'pointer-on-bars' : ''}

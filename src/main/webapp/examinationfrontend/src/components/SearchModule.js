@@ -5,7 +5,7 @@ import Chart, {
     Tooltip,
     ValueAxis
 } from 'devextreme-react/chart';
-import "../App.css";
+import '../App.css';
 import axios from "axios";
 import authHeader from "../service/auth-header";
 import SelectBox from 'devextreme-react/select-box';
@@ -44,9 +44,7 @@ class SearchModule extends React.Component{
         };
     }
 
-    customizeText(e) {
-        return ` ${e.value}`;
-    }
+
 
     componentDidMount() {
         return axios

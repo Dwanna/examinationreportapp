@@ -49,8 +49,8 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/allLecturers", method = RequestMethod.GET)
-    public Page<User> listLecturers(Pageable pageable){
-        return userService.getAllLectures(pageable);
+    public Page<User> listLecturers(int pageNumber,int pageSize,String sortBy,String sortDir){
+        return userService.getAllLectures( pageNumber, pageSize,sortBy,sortDir);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -149,7 +149,7 @@ public class AdminController {
     @PutMapping("/updateUser")
     public ResponseEntity<?>  updateUser(@Valid @RequestBody ValidateUpdateUser validateUpdateUser, BindingResult bindingresult) throws ExceptionHandler {
 
-        System.out.println(validateUpdateUser.getPhoneNumber()+"username"+validateUpdateUser.getUsername()+"name"+validateUpdateUser.getName()+"email"+validateUpdateUser.getEmail());
+        //System.out.println(validateUpdateUser.getPhoneNumber()+"username"+validateUpdateUser.getUsername()+"name"+validateUpdateUser.getName()+"email"+validateUpdateUser.getEmail());
 
         if (bindingresult.hasErrors()) {
             //System.out.println("Invalid fields number"+bindingresult.getErrorCount() +"The first error"+bindingresult.getFieldError().getField());

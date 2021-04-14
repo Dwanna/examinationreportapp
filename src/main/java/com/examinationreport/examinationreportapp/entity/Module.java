@@ -16,6 +16,7 @@ public class Module {
     @GeneratedValue(strategy = IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String moduleName;
 
 
