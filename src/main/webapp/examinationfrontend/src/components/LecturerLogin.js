@@ -102,7 +102,7 @@ class LecturerLogin extends React.Component {
 
                         <div className="form-group" >
                             <label>Password</label>
-                            <Input type="text" className="form-control" placeholder="Enter your password" value={this.state.lecturerPassword} name= "lecturerPassword" onChange={this.onChange}   required />
+                            <Input type="password" className="form-control" placeholder="Enter your password" value={this.state.lecturerPassword} name= "lecturerPassword" onChange={this.onChange}   required />
                         </div>
 
 

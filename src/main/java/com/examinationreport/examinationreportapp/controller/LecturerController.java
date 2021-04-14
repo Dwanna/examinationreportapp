@@ -72,7 +72,8 @@ public class LecturerController {
     @RequestMapping(value="/postGrades", method = RequestMethod.POST)
     public Grade uploadGrades(@Valid @RequestBody ValidateGrade validateGrade){
 
-//        System.out.println(validateGrade.getUsername()+validateGrade.getName()+validateGrade.getGrade());
+
+        System.out.println(validateGrade.getUsername()+validateGrade.getName()+validateGrade.getGrade());
 
 
         return userService.postOrUploadGrades(validateGrade.getUsername(), validateGrade.getName(), validateGrade.getGrade());

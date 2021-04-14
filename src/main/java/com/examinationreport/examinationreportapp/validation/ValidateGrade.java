@@ -12,7 +12,7 @@ public class ValidateGrade {
     private String username;
 
     @NotNull
-    @Size(min=2,max=17, message="Name should be between 2 to 17")
+    @Size(min=2,max=29, message="Name should be between 2 to 17")
     private String name;
 
 

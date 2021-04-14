@@ -96,7 +96,7 @@ class StudentLogin extends React.Component {
 
                         <div className="form-group" >
                             <label>Password</label>
-                            <input type="text" className="form-control" placeholder="Enter your password" value={this.state.studentPassword} name= "studentPassword" onChange={this.onChange}   required />
+                            <input type="password" className="form-control" placeholder="Enter your password" value={this.state.studentPassword} name= "studentPassword" onChange={this.onChange}   required />
                         </div>
 
 

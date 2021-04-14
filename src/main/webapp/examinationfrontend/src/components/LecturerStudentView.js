@@ -45,8 +45,7 @@ class LecturerStudentView extends React.Component {
 
 
     render() {
-        // const{students}=this.props.history.location.state.students;
-        //console.log(this.props.history.location.state.students);
+
 
         return (
             <div>
@@ -63,8 +62,8 @@ class LecturerStudentView extends React.Component {
 
 
                                 <div className="row">
-                                    <a className="nav-link" style={{"cursor":"pointer"}}
-                                       onClick={() => this.setStudentGrade({student})} >Student Username:{student[1]}</a>
+                                    <a className="btn btn-outline-secondary" style={{marginTop:"20px"}}
+                                       onClick={() => this.setStudentGrade({student})} >Name:{student[0]}</a>
                                 </div>
 
 

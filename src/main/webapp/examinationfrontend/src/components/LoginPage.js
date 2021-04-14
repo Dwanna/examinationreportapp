@@ -115,7 +115,7 @@ onChange(event){
 
                                 <div className="form-group" >
                                 <label>Password</label>
-                                <Input type="text" className="form-control" placeholder="Enter your password" value={this.state.adminPassword} name= "adminPassword" onChange={this.onChange}   validations={[required]} />
+                                <Input type="password" className="form-control" placeholder="Enter your password" value={this.state.adminPassword} name= "adminPassword" onChange={this.onChange}   validations={[required]} />
                                 </div>
 
 

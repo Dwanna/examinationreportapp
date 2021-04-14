@@ -91,6 +91,7 @@ updateUser(username,name,email,phoneNumber){
             )
 }
 postGrades(username,name,grade){
+    console.log(username+name+grade);
     return axios
         .post(url +"lecturer/postGrades",{
             username,
@@ -101,6 +102,7 @@ postGrades(username,name,grade){
                 // if(response.data.token){
                 //     localStorage.setItem("user",JSON.stringify(response.data));
                 // }
+
                 return response.data;
             },
             error=>{
